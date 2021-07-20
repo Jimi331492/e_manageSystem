@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-07-15 01:07:09
- * @LastEditTime: 2021-07-16 01:26:53
+ * @LastEditTime: 2021-07-20 13:26:48
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \e_managesystem\src\components\user\User.vue
@@ -102,6 +102,7 @@
                 type="warning"
                 icon="el-icon-setting"
                 size="mini"
+                @click="showSetRole(scope.row)"
               ></el-button>
             </el-tooltip>
           </template>
@@ -133,7 +134,7 @@
         ref="addFormRef"
         :model="addForm"
         label-width="70px"
-        :rules="editFormRules"
+        :rules="addFormRules"
       >
         <el-form-item label="用户名" prop="username">
           <el-input v-model="addForm.username"></el-input>
@@ -189,6 +190,38 @@
         </span>
       </template>
     </el-dialog>
+
+    <!-- 分配角色的对话框 -->
+    <el-dialog
+      title="分配角色 "
+      v-model="showSetRoleVisible"
+      width="50%"
+      @close="resetSetRoleClosed"
+    >
+      <!-- 内容主体 -->
+      <div>
+        <p>当前的用户:{{ userInfo.username }}</p>
+        <p>当前的角色:{{ userInfo.role_name }}</p>
+        <p>
+          分配新角色:
+          <el-select v-model="selectRoleId" placeholder="请选择">
+            <el-option
+              v-for="item in rolelist"
+              :key="item.id"
+              :label="item.roleName"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </p>
+      </div>
+      <!-- 底部区域 -->
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="showSetRoleVisible = false">取 消</el-button>
+          <el-button type="primary" @click="confirmSetRole()">确 定</el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -224,13 +257,19 @@ export default {
         // 当前的页数
         pagenum: 1,
         // 每页显示多少条数据
-        pagesize: 2
+        pagesize: ''
       },
       userlist: [],
+      rolelist: [],
       total: 0,
       addDialogVisible: false,
       editDialogVisible: false,
+      showSetRoleVisible: false,
       currentPageSize: 0,
+      selectRoleId: '',
+
+      // 需要被分配角色的用户信息
+      userInfo: {},
 
       // 添加用户的表单数据
       addForm: {
@@ -280,14 +319,21 @@ export default {
     }
   },
   created() {
-    this.queryInfo.pagesize = window.sessionStorage.getItem('currentPathSize')
+    if (this.queryInfo.pagesize !== 2) {
+      this.queryInfo.pagesize = parseInt(
+        window.sessionStorage.getItem('currentPathSize')
+      )
+      this.getUserList()
+    }
     this.getUserList()
+    // this.queryInfo.pagesize = parseInt(window.sessionStorage.getItem('currentPathSize'))
   },
   methods: {
     async getUserList() {
       const { data: res } = await this.$http.get('users', {
         params: this.queryInfo
       })
+      // console.log(res)
       if (res.meta.status !== 200) {
         return this.$message.error('获取用户列表失败！')
       }
@@ -300,13 +346,15 @@ export default {
     handleSizeChange(newSize) {
       // console.log(newSize)
       window.sessionStorage.setItem('currentPathSize', newSize)
-      this.queryInfo.pagesize = newSize
+      this.queryInfo.pagesize = parseInt(
+        window.sessionStorage.getItem('currentPathSize')
+      )
       this.getUserList()
     },
 
     // 监听 CurrentChange 改变的事件
     handleCurrentChange(newPage) {
-      console.log(newPage)
+      // console.log(newPage)
       this.queryInfo.pagenum = newPage
       this.getUserList()
     },
@@ -387,17 +435,47 @@ export default {
 
     // 确认删除的弹窗
     async confirmDeleteBox(id) {
-      const Result = await this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .catch(err => err)
+      const Result = await this.$confirm(
+        '此操作将永久删除该文件, 是否继续?',
+        '提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      ).catch((err) => err)
       if (Result !== 'confirm') return this.$message.info('已经取消删除')
       const { data: res } = await this.$http.delete('users/' + id)
       if (res.meta.status !== 200) return this.$message.error('删除失败!')
       this.getUserList()
       this.$message.success('删除成功')
+    },
+
+    async showSetRole(user) {
+      this.userInfo = user
+
+      // 在展示对话框前，获取所有的角色的列表
+      const { data: res } = await this.$http.get('roles')
+      if (res.meta.status !== 200) {
+        return this.$message.error('获取角色列表失败！')
+      }
+      this.rolelist = res.data
+      this.showSetRoleVisible = true
+    },
+
+    // 监听分配角色对话框的关闭 重置rolelist
+    resetSetRoleClosed() {
+      this.selectRoleId = ''
+      this.rolelist = ''
+      this.userInfo = {}
+    },
+    async confirmSetRole(id) {
+      const { data: res } = await this.$http.put(`users/${this.userInfo.id}/role`, { rid: this.selectRoleId })
+      // console.log(res)
+      if (res.meta.status !== 200) return this.$message.error('更新角色失败')
+      this.$message.success('更新角色成功！')
+      this.getUserList()
+      this.showSetRoleVisible = false
     }
   }
 }
