@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-07-15 01:25:36
- * @LastEditTime: 2021-07-21 04:19:21
+ * @LastEditTime: 2021-07-21 05:12:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \e_managesystem\src\components\goods\Categories.vue
@@ -64,7 +64,7 @@
               <el-button
                 type="primary"
                 icon="el-icon-edit"
-                @click="showEditCate(scope.row.cat_id)"
+                @click="showEditCate(scope.row)"
                 >编辑</el-button
               >
             </el-tooltip>
@@ -136,6 +136,33 @@
         </span>
       </template>
     </el-dialog>
+
+    <!-- 这是修改分类的对话框 -->
+    <el-dialog
+      title="修改分类"
+      v-model="editCateVisible"
+      width="50%"
+      @close="editCateClosed"
+    >
+      <!-- 内容主体 -->
+      <el-form
+        ref="editCateFormRef"
+        :model="editCateForm"
+        label-width="80px"
+        :rules="editCateFormRules"
+      >
+        <el-form-item label="分类名称" prop="cat_name">
+          <el-input v-model="editCateForm.cat_name">{{this.cateInfo.cat_name}}</el-input>
+        </el-form-item>
+      </el-form>
+      <!-- 底部区域 -->
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="editCateVisible = false">取 消</el-button>
+          <el-button type="primary" @click="editCate">确 定</el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -144,6 +171,7 @@ export default {
   data() {
     return {
       addCateVisible: false,
+      editCateVisible: false,
       // 总数据条数
       total: 0,
       // 分类数据列表
@@ -173,6 +201,7 @@ export default {
         // 分类等级默认是一级分类
         cat_level: 0
       },
+      editCateForm: {},
       cascaderProps: {
         expandTrigger: 'hover',
         value: 'cat_id',
@@ -186,6 +215,11 @@ export default {
         ],
         cat_level: [
           { required: false, message: '请输入父级分类', trigger: 'blur' }
+        ]
+      },
+      editCateFormRules: {
+        cat_name: [
+          { required: true, message: '请输入分类名称', trigger: 'blur' }
         ]
       }
     }
@@ -271,15 +305,39 @@ export default {
           this.addCateForm
         )
         // console.log(res)
-        if (res.meta.status !== 201) return this.$message.error('添加分类失败！')
+        if (res.meta.status !== 201) { return this.$message.error('添加分类失败！') }
         this.$message.success('添加分类成功！')
         this.getCateList()
         this.addCateVisible = false
       })
     },
     // 点击按钮打开编辑分类的对话框
-    showEditCate(id) {
+    showEditCate(cate) {
+      this.editCateForm = cate
+      this.editCateVisible = true
+    },
 
+    // 监听修改分类对话框的关闭 重置对话框内容
+    editCateClosed() {
+      this.editCateForm = {}
+      this.$refs.editCateFormRef.resetFields()
+    },
+
+    // 点击按钮修改分类
+    editCate() {
+      this.$refs.editCateFormRef.validate(async (valid) => {
+        if (!valid) return
+        const { data: res } = await this.$http.put(
+          `categories/${this.editCateForm.cat_id}`,
+          { cat_name: this.editCateForm.cat_name }
+        )
+        // console.log(this.cateInfo)
+        // console.log(res)
+        if (res.meta.status !== 200) return this.$message.error('更新分类失败')
+        this.$message.success('更新分类成功！')
+        this.getCateList()
+        this.editCateVisible = false
+      })
     },
 
     // 点击按钮删除分类
@@ -298,9 +356,7 @@ export default {
       if (Result !== 'confirm') {
         return this.$message.info('已经取消删除')
       }
-      const { data: res } = await this.$http.delete(
-        'categories/' + id
-      )
+      const { data: res } = await this.$http.delete('categories/' + id)
       if (res.meta.status !== 200) return this.$message.error('删除分类失败!')
       this.getCateList()
       this.$message.success('删除成功！')
