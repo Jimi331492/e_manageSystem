@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-07-15 01:25:36
- * @LastEditTime: 2021-07-21 05:12:20
+ * @LastEditTime: 2021-07-22 01:52:05
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \e_managesystem\src\components\goods\Categories.vue
@@ -191,7 +191,7 @@ export default {
       queryInfo: {
         type: 3,
         pagenum: 1,
-        pagesize: 5
+        pagesize: ''
       },
       addCateForm: {
         // 添加分类的名称
@@ -225,6 +225,12 @@ export default {
     }
   },
   created() {
+    if (this.queryInfo.pagesize !== 5) {
+      this.queryInfo.pagesize = parseInt(
+        window.sessionStorage.getItem('currentCatePathSize')
+      )
+      this.getCateList()
+    }
     this.getCateList()
   },
   methods: {
@@ -236,6 +242,7 @@ export default {
       if (res.meta.status !== 200) {
         return this.$message.error('获取分类信息失败！')
       }
+      // console.log(res)
       this.catelist = res.data.result
       this.total = res.data.total
     },
@@ -254,7 +261,8 @@ export default {
 
     // 监听pagesize 改变
     handleSizeChange(newSize) {
-      this.queryInfo.pagesize = newSize
+      window.sessionStorage.setItem('currentCatePathSize', newSize)
+      this.queryInfo.pagesize = parseInt(window.sessionStorage.getItem('currentCatePathSize'))
       this.getCateList()
     },
 

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-07-14 14:52:51
- * @LastEditTime: 2021-07-17 20:21:45
+ * @LastEditTime: 2021-07-21 21:10:30
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \e_managesystem\src\components\home.vue
@@ -97,6 +97,7 @@ export default {
     this.getMenuList()
     this.activePath = window.sessionStorage.getItem('activePath')
     window.sessionStorage.setItem('currentPathSize', 2)
+    window.sessionStorage.setItem('currentCatePathSize', 5)
   },
   methods: {
     logout() {
