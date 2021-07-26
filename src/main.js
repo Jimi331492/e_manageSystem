@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-07-14 01:30:10
- * @LastEditTime: 2021-07-20 22:43:46
+ * @LastEditTime: 2021-07-27 02:20:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \e_managesystem\src\main.js
@@ -15,6 +15,12 @@ import ElementPlus from 'element-plus'
 import 'element-plus/lib/theme-chalk/index.css'
 import locale from 'element-plus/lib/locale/lang/zh-cn'
 import axios from 'axios'
+// // 导入富文本编辑器
+// import { QuillEditor } from '@vueup/vue-quill'
+// import '@vueup/vue-quill/dist/vue-quill.snow.css'
+// // // 导入富文本编辑器样式
+
+// import moment from 'moment'
 // import Message from 'element-plus/lib/el-message/src/message'
 // import { ElButton, ElInput, ElForm, ElFormItem, ElMessage } from 'element-plus'
 
@@ -29,12 +35,23 @@ axios.interceptors.request.use(config => {
 
 const app = createApp(App)
 app.config.globalProperties.$http = axios
+app.use(router).use(ElementPlus, { locale }).mount('#app')
 // app.config.globalProperties.$message = Message 不用全集配置 好像已经自己配置好了
 
-app.use(ElementPlus, { locale })
+// app.filter('dateFormat', function(orginVal) {
+//   const dt = new Date(orginVal * 1000)
+//   const y = dt.getFullYear()
+//   const m = (dt.getMonth() + 1 + '').padStart(2, '0')
+//   const d = (dt.getDay + '').padStart(2, '0')
+//   const hh = (dt.getHours + '').padStart(2, '0')
+//   const mm = (dt.getMinutes + '').padStart(2, '0')
+//   const ss = (dt.getSeconds + '').padStart(2, '0')
+//   return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+// })
+// app.use(VueQuillEditor)
+// app.component('VueQuillEditor', VueQuillEditor)
 // app.component(ElButton.name, ElButton)
 // app.component(ElInput.name, ElInput)
 // app.component(ElMessage.name, ElMessage)
 // app.component(ElForm.name, ElForm)
 // app.component(ElFormItem.name, ElFormItem)
-app.use(router).mount('#app')

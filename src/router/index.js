@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-07-14 01:30:10
- * @LastEditTime: 2021-07-15 02:05:46
+ * @LastEditTime: 2021-07-25 05:04:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \e_managesystem\src\router\index.js
@@ -18,6 +18,7 @@ import Reports from '../components/report/Reports'
 import Goods from '../components/goods/Goods'
 import Params from '../components/goods/Params'
 import Categpories from '../components/goods/Categories'
+import Add from '../components/goods/addGoods'
 
 const routes = [
   { path: '/', redirect: '/login' },
@@ -35,7 +36,8 @@ const routes = [
       { path: '/reports', component: Reports },
       { path: '/params', component: Params },
       { path: '/goods', component: Goods },
-      { path: '/categories', component: Categpories }
+      { path: '/categories', component: Categpories },
+      { path: '/goods/add', component: Add }
     ]
   }
 ]
