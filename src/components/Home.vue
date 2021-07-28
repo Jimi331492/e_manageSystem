@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-07-14 14:52:51
- * @LastEditTime: 2021-07-24 05:50:04
+ * @LastEditTime: 2021-07-27 04:15:14
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \e_managesystem\src\components\home.vue
@@ -99,6 +99,7 @@ export default {
     window.sessionStorage.setItem('currentPathSize', 2)
     window.sessionStorage.setItem('currentCatePathSize', 5)
     window.sessionStorage.setItem('currentGoodsPathSize', 10)
+    window.sessionStorage.setItem('currentOrderPathSize', 10)
   },
   methods: {
     logout() {

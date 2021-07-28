@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-07-15 01:25:01
- * @LastEditTime: 2021-07-26 07:05:09
+ * @LastEditTime: 2021-07-27 04:12:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \e_managesystem\src\components\goods\Goods.vue
@@ -118,7 +118,7 @@ export default {
       })
       console.log(res)
       if (res.meta.status !== 200) {
-        return this.$message.console.error('获取商品列表失败！')
+        return this.$message.error('获取商品列表失败！')
       }
       this.goodslist = res.data.goods
       this.total = res.data.total
