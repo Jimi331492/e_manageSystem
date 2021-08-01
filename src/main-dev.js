@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-07-14 01:30:10
- * @LastEditTime: 2021-07-28 06:13:53
+ * @LastEditTime: 2021-07-31 09:27:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \e_managesystem\src\main.js
@@ -30,7 +30,7 @@ import 'nprogress/nprogress.css'
 
 // 配置请求的路径
 axios.defaults.baseURL = 'http://127.0.0.1:8888/api/private/v1/'
-
+// axios.defaults.baseURL = 'http://47.108.206.212:9999/api/private/v1/'
 // 在request拦截器，展示进度条 Nprogress.start()
 axios.interceptors.request.use(config => {
   // console.log(config)

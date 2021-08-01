@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-07-14 03:01:40
- * @LastEditTime: 2021-07-14 21:25:14
+ * @LastEditTime: 2021-07-29 00:27:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \e_managesystem\src\components\login.vue
@@ -69,6 +69,9 @@ export default {
         ]
       }
     }
+  },
+  created() {
+    console.log('isme')
   },
   methods: {
     // 重置按钮的点击事件
