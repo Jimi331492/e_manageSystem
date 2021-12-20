@@ -1,10 +1,10 @@
 <!--
  * @Author: your name
  * @Date: 2021-07-14 14:52:51
- * @LastEditTime: 2021-07-29 00:27:15
+ * @LastEditTime: 2021-10-24 22:34:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
- * @FilePath: \e_managesystem\src\components\home.vue
+ * @FilePath: \e_managesystem\src\components\Home.vue
 -->
 <template>
   <el-container class="home-container">
@@ -26,7 +26,6 @@
           background-color="#333744"
           text-color="#fff"
           active-text-color="#409bff"
-          unique-opened
           router
           :collapse="isCollapse"
           :collapse-transition="false"
@@ -58,7 +57,7 @@
                 <!-- 图标 -->
                 <i class="el-icon-menu"></i>
                 <!-- 文本 -->
-                <span>{{ subitem.authName }}</span>
+                <span>{{ subitem.menuName }}</span>
               </template>
             </el-menu-item>
           </el-submenu>

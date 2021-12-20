@@ -1,10 +1,10 @@
 <!--
  * @Author: your name
  * @Date: 2021-07-15 01:07:09
- * @LastEditTime: 2021-07-20 13:26:48
+ * @LastEditTime: 2021-11-01 21:52:27
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
- * @FilePath: \e_managesystem\src\components\user\User.vue
+ * @FilePath: \e_managesystem\src\components\user\Users.vue
 -->
 <template>
   <div>
@@ -470,7 +470,10 @@ export default {
       this.userInfo = {}
     },
     async confirmSetRole(id) {
-      const { data: res } = await this.$http.put(`users/${this.userInfo.id}/role`, { rid: this.selectRoleId })
+      const { data: res } = await this.$http.put(
+        `users/${this.userInfo.id}/role`,
+        { rid: this.selectRoleId }
+      )
       // console.log(res)
       if (res.meta.status !== 200) return this.$message.error('更新角色失败')
       this.$message.success('更新角色成功！')
