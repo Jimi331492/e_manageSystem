@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-07-14 01:30:10
- * @LastEditTime: 2021-08-01 14:27:48
+ * @LastEditTime: 2021-12-22 18:55:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \e_managesystem\README.md
@@ -9,15 +9,15 @@
 # e_managesystem一个基于Vue3+ElementUI Plus的电商后台管理系统
 
 ## 项目预览
-#### [点击预览](https://www.mmgoodstudy.icu/e_manageSystem_Preview/)
+#### [点击预览](https://www.my3iao.com/e_manageSystem_Preview/)
 
 ## 功能
 用于管理用户账号，商品分类，商品信息，订单，数据统计等业务功能
-![Image text](https://cdn.jsdelivr.net/gh/Jimi331492/cdn/img/aboutProject/e_mS_1.png)
+![Image text](https://cdn.jsdelivr.net/gh/Jimi331492/cdn/img/project/e_mS_1.png)
 
 ## 开发模式
 电商后台管理系统整体采用前后端分离的开发模式,其中前端项目是基于Vue技术栈的SPA项目
-![Image text](https://cdn.jsdelivr.net/gh/Jimi331492/cdn/img/aboutProject/e_mS_2.png)
+![Image text](https://cdn.jsdelivr.net/gh/Jimi331492/cdn/img/project/e_mS_2.png)
 
 ## 项目技术栈
 * Vue3
